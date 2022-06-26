@@ -300,13 +300,13 @@ function problem17() {
     console.log(`sum of 0 to ${number} is ${result}.`);
 }
 
-function convertToBinary(x){
+function convertToBinary(x) {
     let bin = 0;
 
     let digit = 1;
-    while(x){
+    while (x) {
         let reminder = x % 2;
-        x = parseInt(x/2);
+        x = parseInt(x / 2);
 
         bin = bin + reminder * digit;
         digit = digit * 10;
@@ -314,15 +314,15 @@ function convertToBinary(x){
     return bin;
 }
 
-function problem18(){
+function problem18() {
     let number = parseInt(prompt("Enter a decimal number:"));
     let bin = convertToBinary(number);
     console.log(`${number} of bin is ${bin}.`);
 }
 
 // Default Parameter Value For a Function
-function problem19(){
-    let calculate = function(x=15, y=x+2){
+function problem19() {
+    let calculate = function (x = 15, y = x + 2) {
         return x + y;
     }
     const result1 = calculate(10);
@@ -331,4 +331,216 @@ function problem19(){
     const result2 = calculate();
     console.log(result2);
 }
-problem19()
+
+function problem20() {
+    let x = 0;
+    let typeofX = typeof x;
+    console.log(`typeof ${x} is ${typeofX}.`);
+
+    let x2 = "aaaaaaaaaaaaaa";
+    let typeofX2 = typeof x2;
+    console.log(`typeof ${x2} is ${typeofX2}.`);
+
+    let x3 = function () {
+        return 3;
+    };
+    let typeofX3 = typeof x3;
+    console.log(`typeof ${x3} is ${typeofX3}.`);
+
+}
+
+function problem21() {
+    setTimeout(problem20, 1000);// get called after 1000 milliseconds;
+    console.log("hello world.");
+}
+
+function problem22Sum() {
+    if (arguments.length == 0) {
+        console.log(`you have no pass any argement`);
+        return;
+    }
+
+    if (arguments.length == 1) {
+        console.log(`pass at least two arguments.`);
+        return;
+    }
+
+    let result = 0;
+    let length = arguments.length;
+    for (let i = 0; i < length; i++) {
+        result += arguments[i];
+    }
+    console.log(result);
+}
+
+function problem22() {
+    problem22Sum();
+    problem22Sum(5);
+    problem22Sum(5, 9);
+    problem22Sum(1, 2, 3, 4, 5, 6, 7, 8, 9);
+}
+
+function problem23Greet() {
+    return 'hello';
+}
+function problem23Name(user, func) {
+    const message = func();
+
+    console.log(`${message}, ${user}`);
+}
+
+function problem23() {
+    problem23Name('John', problem23Greet);
+    problem23Name('Jack', problem23Greet);
+    problem23Name('John', problem23Greet);
+}
+
+// array & object
+function problem24() {
+    const suits = ["Spades", "Diamonds", "Club", "Heart"];
+    const values = ["Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"];
+
+    let deck = [];
+    for (let i = 0; i < suits.length; i++) {
+        for (let x = 0; x < values.length; x++) {
+            deck.push({ Value: values[x], Suit: suits[i] });
+        }
+    }
+
+    for (let i = deck.length - 1; i > 0; i--) {
+        let rand = Math.floor(Math.random() * i);
+        let temp = deck[i];
+        deck[i] = deck[rand];
+        deck[rand] = temp;
+    }
+
+    console.log('The first five cards are:');
+    for (let i = 0; i < 5; i++) {
+        console.log(`${deck[i].Value},${deck[i].Suit}`);
+    }
+}
+
+function problem25() {
+    const string = prompt('Enter a sentance :');
+
+    const words = string.split(' ');
+    words.sort();
+    console.log(`The sorted word are:`);
+
+    for (let i = 0; i < words.length; i++) {
+        console.log(`${words[i]}`);
+    }
+
+    wordsString = words.join('-')
+    console.log(`${wordsString}`);
+}
+
+function problem26() {
+    const person = {
+        name: 'John',
+        age: 20,
+        hobbies : ['reading', 'games', 'coding'],
+        greet: function(){
+            console.log(`hello everyone.`);
+        },
+        score:{
+            math:90,
+            science:80
+        }
+    };
+
+    console.log(typeof person);// object
+
+    console.log(person.name);
+    console.log(person.hobbies[0]);
+    person.greet();
+    console.log(person.score.math);
+}
+
+function problem27() {
+    const person = {
+        name: 'John',
+        age: 20,
+        hobbies : ['reading', 'games', 'coding'],
+        greet: function(){
+            console.log(`hello everyone.`);
+        },
+        score:{
+            math:90,
+            science:80
+        }
+    };
+
+    console.log(person);
+
+    delete person.greet;
+    delete person.score;
+
+    console.log(person);
+
+}
+
+function problem28(){
+    const person = {
+        name:'John',
+        age: 21
+    };
+
+    const clonePerson = {...person};// deep copy
+    //clonePerson = person; // pointing to the same object
+    console.log(clonePerson);
+
+    clonePerson.name = 'Peter';
+    console.log(clonePerson);
+
+    console.log(person);
+}
+
+function problem29(){
+    const student = {
+        name : 'John',
+        age: 20,
+        hobbies:['reading', 'games','coding']
+    };
+
+    for(let [key,value] of Object.entries(student)){// iterator
+        console.log(`${key}-${value}`);
+    }
+}
+
+function problem30(){
+    const person = {
+        name : 'Jack',
+        age:26
+    };
+
+    const student={
+        gender : 'male'
+    };
+
+    const newObj = {...person, ...student};
+    console.log(newObj);
+}
+
+function problem31(){
+    const student = {
+        name:'John',
+        age:20,
+        hobbies:['reading', 'game','coding']
+    };
+
+    student['height'] = 5.4;
+    console.log(student);
+}
+
+function problem32(){
+    const person = {
+        name :'Jack',
+        age:27
+    };
+    const result = JSON.stringify(person);
+    console.log(result);
+    console.log(typeof result);
+}
+
+problem32();

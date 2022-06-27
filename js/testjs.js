@@ -1,5 +1,8 @@
 // 学习方法：https://www.zhihu.com/question/19713563
 //  https://www.programiz.com/javascript/examples
+
+// TODO import {countDown} from './testexport.js';
+
 function problem3() {
     const number1 = 2.25;
     const number2 = -1;
@@ -695,4 +698,134 @@ function problem40() {
     checkVariable(b)
 }
 
-problem40();
+function countString(str, letter) {
+
+    // creating regex 
+    const re = new RegExp(letter, 'gi');//g:global,i:ignore upper case or lower case
+    const arr = str.match(re);// str.match(re) return ["oo", "oo", "oo"].
+    count = arr.length;
+
+    return count;
+}
+
+function problem41() {
+    const string = 'schoo1oo9oolOO';
+    const letterToCheck = 'oo';
+    let count = countString(string, letterToCheck);
+    console.log(`${count}`)
+}
+
+function problem42() {
+    const string = '      Hello    World       ';
+    const result = string.trim();
+    console.log(result);
+}
+
+function problem43() {
+    const str = "Learning JavaScript";
+
+    // encoding the string base64
+    const result = window.btoa(str);
+    console.log(result);
+
+    // decoding the string
+    const result1 = window.atob(result);
+    console.log(result1);
+}
+
+function getFileExtension(filename) {
+    //return filename.substring(filename.lastIndexOf('.') + 1);
+    return filename.substring(filename.lastIndexOf('.') + 1, filename.length);// is equivalent above
+}
+
+function problem44() {
+    const result1 = getFileExtension('module.txt.js');
+    console.log(result1);
+
+    const result2 = getFileExtension('test.txt');
+    console.log(result2);
+}
+
+function problem45() {
+    const timeStamp = new Date().getTime()
+    console.log(timeStamp)// 1656306908212
+
+    const date = new Date(1656306908212);
+    console.log(date)// Mon Jun 27 2022 13:15:08 GMT+0800 (中国标准时间)
+}
+
+function problem46() {
+    let leftSecond = 10;
+    let intervalMs = 2000;
+    // TODO import countDown(leftSecond, intervalMs)
+}
+
+function problem47() {
+    const url1 = window.location.href;// get url
+    const url2 = document.URL;
+    console.log(url1);
+    console.log(url2);
+}
+
+class StackDemo {
+    constructor() {
+        this.items = [];
+    }
+
+    // add element to the stack
+    push(element) {
+        return this.items.push(element);
+    }
+
+    // remove element from the stack
+    pop() {
+        if (this.items.length > 0) {
+            return this.items.pop();
+        }
+    }
+
+    // check if the stack is empty
+    isEmpty() {
+        return this.items.length == 0;
+    }
+
+    // the size of the stack
+    size() {
+        return this.items.length;
+    }
+
+    // empty the stack
+    clear() {
+        this.items = [];
+    }
+}
+
+function problem48() {
+    let stack = new StackDemo();
+    stack.push(1)
+    stack.push(2)
+    stack.push(3)
+    stack.push(4)
+    console.log(stack);
+
+
+    topElement = stack.pop();
+    console.log(`topElement=${topElement}`)
+    let size = stack.size();
+    console.log(`stack.size=${size}`)
+}
+
+function problem49() {
+    const img = new Image();
+
+    // get the image
+    img.src = '//cdn.programiz.com/sites/tutorial2program/files/cover-artwork.png';
+
+    // get height and width
+    img.onload = function () {
+        console.log('width ' + this.width)
+        console.log('height ' + this.height);
+    }
+}
+
+problem49();

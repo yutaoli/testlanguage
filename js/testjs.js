@@ -353,7 +353,9 @@ function problem19() {
     console.log(result2);
 }
 
-function problem20() {
+function problem20(name, age) {
+    console.log(`name:${name}, age:${age}`);
+
     let x = 0;
     let typeofX = typeof x;
     console.log(`typeof ${x} is ${typeofX}.`);
@@ -368,11 +370,6 @@ function problem20() {
     let typeofX3 = typeof x3;
     console.log(`typeof ${x3} is ${typeofX3}.`);
 
-}
-
-function problem21() {
-    setTimeout(problem20, 1000);// get called after 1000 milliseconds;
-    console.log("hello world.");
 }
 
 function problem22Sum() {
@@ -754,12 +751,6 @@ function problem45() {
     console.log(date)// Mon Jun 27 2022 13:15:08 GMT+0800 (中国标准时间)
 }
 
-function problem46() {
-    let leftSecond = 10;
-    let intervalMs = 2000;
-    // TODO import countDown(leftSecond, intervalMs)
-}
-
 function problem47() {
     const url1 = window.location.href;// get url
     const url2 = document.URL;
@@ -828,4 +819,335 @@ function problem49() {
     }
 }
 
-problem49();
+function problem50() {
+    const numerator = 100, denominator = 0;
+
+    try {
+        if (denominator != 0) {
+            console.log(numerator / denominator);
+        }
+        else {
+            throw new Error('The number is 0');
+        }
+
+        console.log(1);
+    }
+    catch (error) {
+        console.log(`An error caught,msg:${error}`);
+    }
+    finally {
+        console.log('Finally will execute every time');
+    }
+}
+
+function problem51() {
+    setTimeout(function () {
+        try {
+            // error in the code
+            console.log('in try');
+        } catch {
+            console.log("error is caught");
+        }
+    }, 1000);
+}
+
+// ES6 begin: Arrow Function, spread syntax ...
+function problem52() {
+    /*let x = function (...argu) {
+        if(argu.length>=2){
+            return argu[0] * argu[1]
+        }
+
+        return 1
+    }*/
+    let x = (...argu) => {
+        if (argu.length >= 2) {
+            return argu[0] * argu[1]
+        } else return 1
+    }// 和上面注释掉的等价
+    let string = typeof x;
+    console.log(`${string}`)// function
+    console.log(`${x(2, 4, 10)}`)// 15,notice: is x(), not x, x is a function
+}
+// ES6 map, set is the similar
+function problem53() {
+    let map1 = new Map();
+
+    // add 
+    map1.set('1', { name: 'Jack', age: 26 });
+    map1.set('2', { name: 'John', age: 27 });
+    console.log(map1)
+
+    // find
+    console.log(map1.has('1')); // true
+    console.log(map1.has('11')); // false
+
+    // iterator，遍历
+    for (let [k, v] of map1) {
+        console.log(k, '-', v)
+    }
+
+    // values, keys the same
+    let values = map1.values();
+    for (let i of values) {
+        console.log(i)
+    }
+
+    // del
+    let key = '1'
+    if (map1.has(key)) {
+        map1.delete(key)
+    }
+    console.log(map1)
+
+    // modify
+    key = '2'
+    if (map1.has(key)) {
+        map1[key] = `{name: 'John', age: 29}`
+    }
+    console.log(map1)
+
+}
+
+// ES6 end:Destructuring Assignment
+function problem54() {
+    // assigning object attributes to variables
+    const person = {
+        name: 'Sara',
+        age: 25,
+        gender: 'female'
+    }
+
+    // destructuring assignment
+    let { name: name1, age: age1, gender: gender1 } = person;
+
+    console.log(name1); // Sara
+    console.log(age1); // 25
+    console.log(gender1); // female
+}
+
+// parent class
+class Person {
+    constructor(name) {
+        this.name = name;
+        this.occupation = "unemployed";
+        console.log("in constructor of class Person ");
+    }
+
+    greet() {
+        console.log(`Hello ${this.name}`);
+    }
+}
+
+// inheriting parent class
+class Student extends Person {
+
+    constructor(name) {
+        console.log("Creating student class");
+
+        // call the super class constructor and pass in the name parameter
+        super(name);
+
+        // overriding
+        this.occupation = "student";
+    }
+
+    // overriding Person's method
+    greet() {
+        console.log(`Hello student ${this.name}.`);
+        console.log('occupation: ' + this.occupation);
+    }
+}
+
+function problem55() {
+    let student1 = new Student('Jack');
+    student1.greet();
+}
+
+// JavaScript Asynchronous begin
+var timerId = 0;
+function problem56() {
+    if (timerId != 0) {
+        clearTimeout(timerId);
+    }
+
+    timerId = setTimeout(problem20, 3000, 'John', 27);// get called after 1000 milliseconds; add to a timer
+
+    console.log(timerId)
+    console.log("hello world.");
+}
+function countDown(leftSecond, intervalMs) {
+
+    let countDown = leftSecond * 1000 + new Date().getTime()// ms
+
+    let x = setInterval(function () {
+        let left = countDown - new Date().getTime();
+        if (left <= 0) {
+            clearInterval(x);
+            console.log('CountDown Finished');
+            return;
+        }
+
+        let second = Math.floor(left / 1000);
+        console.log(`left ${second} second.`)
+    }, intervalMs)
+}
+
+function problem57() {
+    let leftSecond = 10;
+    let intervalMs = 2000;
+    countDown(leftSecond, intervalMs)
+}
+
+function problem58() {
+    const count = true;
+
+    // 入门视频：https://www.youtube.com/watch?v=DHvZLI7Db8E
+    let countValue = new Promise(function (resolve, reject) {
+        if (count) {
+            resolve("There is a count value.");
+        } else {
+            reject("There is no count value");
+        }
+    });
+
+    console.log(countValue);
+
+    // Promise.all([countValue]).then()
+    countValue
+        .then(function successValue(result) {
+            console.log(result);// will default new Promise,then will go to the next .then
+        })
+        .then(function successValue1() {
+            console.log("You can call multiple functions this way.");
+        })
+        .catch(// executes if there is an error
+            function errorValue(result) {
+                console.log(result);
+            }
+        )
+        .finally(
+            function greet() {
+                console.log('This code is always executed.');
+            }
+        );
+}
+
+function problem59() {
+    // a promise
+    let promise = (timeoutMs) => new Promise(function (resolve, reject) {
+        setTimeout(function () {
+            resolve('Promise resolved')
+        }, timeoutMs);
+    });
+
+    let promise2 = (timeoutMs) => new Promise(function (resolve, reject) {
+        setTimeout(function () {
+            resolve('Promise2 resolved')
+        }, timeoutMs);
+    });
+
+    // async function
+    async function asyncFunc() {
+
+        // wait until the promise resolves 
+        //let result = await promise;
+        let result = await promise(2000);
+        console.log(result);
+        let result2 = await promise2(3000);
+
+        console.log('hello');
+    }
+
+    // calling the async function
+    asyncFunc();
+}
+
+// JavaScript Asynchronous end
+
+function problem60() {
+    // JSON object
+    const data = `{
+    "name": "John",
+    "age": 22,
+    "hobby": {
+	"reading" : true,
+	"gaming" : false,
+	"sport" : "football"
+    },
+    "class" : ["JavaScript", "HTML", "CSS"]
+}`
+
+    let obj = JSON.parse(data)
+    // accessing JSON object
+    console.log(obj.name); // John
+    console.log(obj.hobby); // { gaming: false, reading: true, sport: "football"}
+
+    console.log(obj.hobby.sport); // football
+    console.log(obj.class[1]); // HTML
+
+    
+    let string = JSON.stringify(obj);
+    console.log(string);
+}
+
+// closures 闭包，就是返回函数内的函数
+function problem61(){
+    function sum() {
+        let a = 0;
+        function increaseSum() {
+    
+            // the value of a is increased by 1
+            return a = a + 1;
+        }
+        return increaseSum;
+    }
+    
+    let x = sum();// increaseSum
+    let a = 5;
+    console.log(x()); // 1
+    console.log(x()); // 2
+    console.log(a); // 5
+}
+
+function problem62(){
+    const person = {
+        name : 'Jack',
+        age: 25,
+    
+        // this inside method, in the class call method, not function
+        // this refers to the object itself
+        greet() {
+            console.log(this);        // {name: 'Jack', age: 25, greet: ƒ}
+            console.log(this.age);  // 25
+    
+            // inner function
+            function innerFunc() {
+            
+                // this refers to the global object
+                console.log(this.age);    // undefined
+
+                console.log(this);       // Window { ... }
+                
+                
+            }
+    
+            innerFunc();
+
+            // inner function
+            let innerFunc2 = () => {
+            
+                // this refers to the global object
+                console.log(this.age);    // 25
+
+                console.log(this);       // {name: 'Jack', age: 25, greet: ƒ}
+            }
+            innerFunc2();
+
+        }
+    }
+    
+    person.greet();
+}
+
+problem62();

@@ -73,14 +73,15 @@ function problem6() {
     }
     console.log(a);
 
-    const arr = ['zero', 'one', 'two'];
+    let arr = ['zero', 'one', 'two'];
     console.log(arr);
 
     // add elements to arr array
     arr[3] = 'three';
     console.log(`arr length:${arr.length}, arr:${arr}`);
 
-    arr.push('four');// add
+    //arr.push('four');// add,push on the end
+    arr.splice(arr.length, 0, 'four');// add,push on the end
     console.log(`arr length:${arr.length}, arr:${arr}`);
 
     arr.splice(0, 2);// delete
@@ -92,6 +93,23 @@ function problem6() {
     var lookupstring = 'one';// find 
     var i = arr.indexOf(lookupstring);
     console.log(`${lookupstring} of in arr is ${i}`)
+
+    // copy arr
+    let arr2 = arr.slice(0);// array deep copy,copy from index 0 to end
+    //let arr2 = [...arr];// array deep copy,copy from index 0 to end
+    console.log(`arr2 length:${arr2.length}, arr2:${arr2}`);
+
+    let arr3 = arr;// not deep copy arr
+
+    // empty array
+    arr[3] = 'new three';
+    arr3 = [];//empty arr,only empty arr3
+    //arr3.length = 0; // will empty arr  arr3
+    //arr3.splice(0);// will empty arr  arr3
+    //arr3[3] = "three3333333333333";
+    console.log(`arr length:${arr.length}, arr:${arr}`);
+    console.log(`arr2 length:${arr2.length}, arr2:${arr2}`);
+    console.log(`arr3 length:${arr3.length}, arr3:${arr3}`);
 }
 
 function problem7() {
@@ -439,13 +457,13 @@ function problem26() {
     const person = {
         name: 'John',
         age: 20,
-        hobbies : ['reading', 'games', 'coding'],
-        greet: function(){
+        hobbies: ['reading', 'games', 'coding'],
+        greet: function () {
             console.log(`hello everyone.`);
         },
-        score:{
-            math:90,
-            science:80
+        score: {
+            math: 90,
+            science: 80
         }
     };
 
@@ -461,13 +479,13 @@ function problem27() {
     const person = {
         name: 'John',
         age: 20,
-        hobbies : ['reading', 'games', 'coding'],
-        greet: function(){
+        hobbies: ['reading', 'games', 'coding'],
+        greet: function () {
             console.log(`hello everyone.`);
         },
-        score:{
-            math:90,
-            science:80
+        score: {
+            math: 90,
+            science: 80
         }
     };
 
@@ -480,13 +498,13 @@ function problem27() {
 
 }
 
-function problem28(){
+function problem28() {
     const person = {
-        name:'John',
+        name: 'John',
         age: 21
     };
 
-    const clonePerson = {...person};// deep copy
+    const clonePerson = { ...person };// deep copy
     //clonePerson = person; // pointing to the same object
     console.log(clonePerson);
 
@@ -496,51 +514,185 @@ function problem28(){
     console.log(person);
 }
 
-function problem29(){
+function problem29() {
     const student = {
-        name : 'John',
+        name: 'John',
         age: 20,
-        hobbies:['reading', 'games','coding']
+        hobbies: ['reading', 'games', 'coding']
     };
 
-    for(let [key,value] of Object.entries(student)){// iterator
+    for (let [key, value] of Object.entries(student)) {// iterator
         console.log(`${key}-${value}`);
     }
 }
 
-function problem30(){
+function problem30() {
     const person = {
-        name : 'Jack',
-        age:26
+        name: 'Jack',
+        age: 26
     };
 
-    const student={
-        gender : 'male'
+    const student = {
+        gender: 'male'
     };
 
-    const newObj = {...person, ...student};
+    const newObj = { ...person, ...student };
     console.log(newObj);
 }
 
-function problem31(){
+function problem31() {
     const student = {
-        name:'John',
-        age:20,
-        hobbies:['reading', 'game','coding']
+        name: 'John',
+        age: 20,
+        hobbies: ['reading', 'game', 'coding']
     };
 
     student['height'] = 5.4;
     console.log(student);
 }
 
-function problem32(){
+function problem32() {
     const person = {
-        name :'Jack',
-        age:27
+        name: 'Jack',
+        age: 27
     };
     const result = JSON.stringify(person);
     console.log(result);
     console.log(typeof result);
 }
 
-problem32();
+function problem33() {
+    const string = "Learning JavaScript Program";
+    //const result = string.replace(/a/g,"A");
+    const result = string.split("a").join("A");
+    console.log(result);
+}
+
+function problem34() {
+    const array = [2, 1, 2, 3, 2, 3, 1];
+    const array2 = [2, 3, 4, 3, 2, 5];
+
+    const concatArray = [...array, ...array2];// concat 2 array
+
+    let uniqArray = [...new Set(concatArray)];// new Set(array) return set, ...set return all element of set
+    console.log(uniqArray);
+}
+
+function compareName(a, b) {
+    const name1 = a.name.toUpperCase();
+    const name2 = b.name.toUpperCase();
+
+    let comparison = 0;
+    if (name1 > name2) {
+        comparison = 1;
+    }
+    else if (name1 < name2) {
+        comparison = -1;
+    }
+    return comparison;
+}
+
+function compareAge(a, b) {
+    return a.age - b.age;
+}
+
+function problem35() {
+    const student = [{ name: 'Sara', age: 24 }, { name: 'John', age: 22 }, { name: 'Jack', age: 25 }];
+    // student.sort(compareName);
+    student.sort(compareAge);
+    console.log(student);
+}
+
+function twoDimensionArray(a, b) {
+    let arr = [];
+
+    // creating two dimensional array
+    for (let i = 0; i < a; i++) {
+        arr[i] = [];
+    }
+
+    // inserting elements to array
+    for (let i = 0; i < a; i++) {
+        for (let j = 0; j < b; j++) {
+            arr[i][j] = j;
+        }
+    }
+    return arr;
+}
+
+function problem36() {
+    const x = 2;
+    const y = 3;
+
+    const result = twoDimensionArray(x, y);
+    console.log(result);
+}
+
+function extractValue(arr, prop) {
+    // extract value from property
+    //let extractedValue = arr.map(function(item){return item[prop]})
+    let extractedValue = arr.map(item => item[prop]);// 和上面是等价的
+
+    return extractedValue;
+}
+
+function problem37() {
+    const objArray = [{ a: 1, b: 2 }, { a: 4, b: 5 }, { a: 5, b: 6 }];
+
+    const result = extractValue(objArray, 'a');// get property a 
+    console.log(result)
+}
+
+function performIntersection(arr1, arr2) {
+    //const intersectionResult = arr1.filter(item=>arr2.indexOf(item) != -1);// filter 的实现里有for
+
+    let intersectionResult = [];
+    let setArr2 = new Set(arr2);
+    for (let i of arr1) {// notice:'of', not 'in'
+        if (setArr2.has(i)) {
+            intersectionResult.push(i)
+        }
+    }
+    return intersectionResult;
+}
+
+function problem38() {
+    const array1 = [1, 2, 3, 5, 9];
+    const array2 = [1, 3, 5, 8, 9];
+
+    const result = performIntersection(array1, array2);
+    console.log(result);
+
+}
+
+function problem39() {
+    const array = [1, 2, 3, 4, 5, 6, 7, 8];
+
+    let sliceArray = array.slice(1, 4);// [2, 3, 4]
+    sliceArray[1] = 15;
+    sliceArray[2] = 45;
+
+    console.log(array);
+    console.log(sliceArray);
+}
+
+function checkVariable(variable) {
+
+    //if (variable === undefined || variable === null){
+    if (variable == null) {// is equivalent to above
+        console.log('The variable is undefined or null');
+    }
+    else {
+        console.log('The variable is neither undefined nor null');
+    }
+}
+
+function problem40() {
+    let a;
+    checkVariable(a)
+
+    let b = 0;
+    checkVariable(b)
+}
+
+problem40();

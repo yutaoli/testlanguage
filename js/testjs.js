@@ -819,7 +819,7 @@ function problem49() {
     const img = new Image();
 
     // get the image
-    img.src = '//cdn.programiz.com/sites/tutorial2program/files/cover-artwork.png';
+    img.src = 'https://cdn.programiz.com/sites/tutorial2program/files/cover-artwork.png';
 
     // get height and width
     img.onload = function () {

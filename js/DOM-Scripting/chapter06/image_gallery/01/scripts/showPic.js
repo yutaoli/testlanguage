@@ -22,8 +22,11 @@ function prepareGallery() {
   if (!document.getElementById("imagegallery")) return false;
   var gallery = document.getElementById("imagegallery");
   var links = gallery.getElementsByTagName("a");
+  console.log(links)
+
   for ( var i=0; i < links.length; i++) {
-    links[i].onclick = function() {
+    console.log(i)
+    links[i].onclick = function() {// 注册事件回调函数
       return showPic(this);
 	}
     links[i].onkeypress = links[i].onclick;

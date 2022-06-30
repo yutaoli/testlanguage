@@ -56,6 +56,7 @@ function preparePlaceholder() {
   var gallery = document.getElementById("imagegallery");
   gallery.parentNode.insertBefore(placeholder,gallery);
   gallery.parentNode.insertBefore(description,gallery);
+  console.log(document)
 }
 
 addLoadEvent(preparePlaceholder);

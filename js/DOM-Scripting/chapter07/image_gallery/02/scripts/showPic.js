@@ -49,13 +49,16 @@ function preparePlaceholder() {
   placeholder.setAttribute("id","placeholder");
   placeholder.setAttribute("src","images/placeholder.gif");
   placeholder.setAttribute("alt","my image gallery");
+
   var description = document.createElement("p");
   description.setAttribute("id","description");
   var desctext = document.createTextNode("Choose an image");
   description.appendChild(desctext);
-  var gallery = document.getElementById("imagegallery");
+  //var gallery = document.getElementById("imagegallery");
   document.getElementsByTagName("body")[0].appendChild(placeholder);
   document.getElementsByTagName("body")[0].appendChild(description);
+
+  console.log(document)
 }
 
 addLoadEvent(preparePlaceholder);

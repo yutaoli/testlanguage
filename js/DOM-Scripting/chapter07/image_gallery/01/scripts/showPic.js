@@ -3,12 +3,14 @@ function showPic(whichpic) {
   var source = whichpic.getAttribute("href");
   var placeholder = document.getElementById("placeholder");
   placeholder.setAttribute("src",source);
+
   if (!document.getElementById("description")) return false;
   if (whichpic.getAttribute("title")) {
     var text = whichpic.getAttribute("title");
   } else {
     var text = "";
   }
+  
   var description = document.getElementById("description");
   if (description.firstChild.nodeType == 3) {
     description.firstChild.nodeValue = text;

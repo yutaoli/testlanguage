@@ -32,6 +32,7 @@ function preparePlaceholder() {
   description.setAttribute("id","description");
   var desctext = document.createTextNode("Choose an image");
   description.appendChild(desctext);
+  
   var gallery = document.getElementById("imagegallery");
   insertAfter(placeholder,gallery);
   insertAfter(description,placeholder);

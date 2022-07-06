@@ -12,6 +12,7 @@
 			<div id="searchBar">
 				Search <input type="text" v-model="searchQuery" />
 			</div>
+			
 			<simple-grid :data="gridData" :columns="gridColumns" :filter-key="searchQuery">
 			</simple-grid>
 		</div>

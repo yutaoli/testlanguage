@@ -10,7 +10,7 @@
 	<body>
 
 		<div id="app">
-			<my-component v-bind:my-name="name" v-bind:my-age="age"></my-component>
+			<my-component v-bind:my-name="name" v-bind:my-age="age" v-bind:my-grade="grade"></my-component>
 		</div>
 
 		<template id="myComponent">
@@ -28,6 +28,10 @@
 					<td>my age</td>
 					<td>{{ myAge }}</td>
 				</tr>
+				<tr>
+					<td>my grade</td>
+					<td>{{ myGrade }}</td>
+				</tr>
 			</table>
 		</template>
 	</body>
@@ -37,12 +41,13 @@
 			el: '#app',
 			data: {
 				name: 'keepfool',
-				age: 28
+				age: 28,
+				grade: 6,
 			},
 			components: {
 				'my-component': {
 					template: '#myComponent',
-					props: ['myName', 'myAge']
+					props: ['myName', 'myAge','myGrade']
 				}
 			}
 		})

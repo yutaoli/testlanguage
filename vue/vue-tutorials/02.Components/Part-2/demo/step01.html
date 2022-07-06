@@ -26,7 +26,7 @@
 
 			</div>
 			<div class="container">
-				<simple-grid :data-list="people" :columns="columns" :search-key="searchQuery">
+				<simple-grid :data-list="people" :columns="columns" :search-key-temp="searchQuery">
 				</simple-grid>
 			</div>
 		</div>
@@ -44,7 +44,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr v-for="(index,entry) in dataList | filterBy searchKey">
+					<tr v-for="(index,entry) in dataList | filterBy searchKeyTemp">
 						<td v-for="col in columns">
 							{{entry[col.name]}}
 						</td>
@@ -60,7 +60,7 @@
 		<script>
 			Vue.component('simple-grid', {
 				template: '#grid-template',
-				props: ['dataList', 'columns', 'searchKey'],
+				props: ['dataList', 'columns', 'searchKeyTemp'],
 
 				methods: {
 					deleteItem: function(entry) {

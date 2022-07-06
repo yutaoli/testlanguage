@@ -9,6 +9,7 @@
 - [Hello World示例](https://keepfool.github.io/vue-tutorials/01.GettingStarted/index.html)
 
 #### 常用内置指令
+下载到本地，直接浏览器打开即可用；
 - [v-if指令示例](https://keepfool.github.io/vue-tutorials/01.GettingStarted/v-if.html)
 - [v-show指令示例](https://keepfool.github.io/vue-tutorials/01.GettingStarted/v-show.html)
 - [v-else指令示例](https://keepfool.github.io/vue-tutorials/01.GettingStarted/v-else.html)

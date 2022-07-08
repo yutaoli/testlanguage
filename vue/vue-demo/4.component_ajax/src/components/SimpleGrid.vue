@@ -31,7 +31,7 @@ export default {
       searchQuery: "",
       gridColumns: ["name", "age", "sex"],
       gridData: [],
-      apiUrl: "/test/getGridData",
+      apiUrl: "/test_component_ajax/getGridData",
     };
   },
   mounted() {

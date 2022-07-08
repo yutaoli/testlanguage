@@ -44,9 +44,9 @@ func HelloServer1(w http.ResponseWriter, req *http.Request) {
 }
 
 func main() {
-	http.HandleFunc("/test/getGridData", HelloServer)
+	http.HandleFunc("/test_component_ajax/getGridData", HelloServer)
 	http.HandleFunc("/hello1", HelloServer1)
-	err := http.ListenAndServe(":9090", nil)
+	err := http.ListenAndServe(":1234", nil)
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}

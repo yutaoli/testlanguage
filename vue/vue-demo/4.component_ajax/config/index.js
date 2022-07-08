@@ -11,8 +11,8 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/test':{
-        target:'http://127.0.0.1:9090'
+      '/test_component_ajax':{
+        target:'http://127.0.0.1:1234'
       }
     },
 
@@ -47,7 +47,7 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
+    assetsPublicPath: '/component_ajax',
 
     /**
      * Source Maps

@@ -3,9 +3,10 @@ package main
 import (
 	"encoding/json"
 	"io"
-	"log"
 	"net/http"
 	"os"
+
+	log "github.com/sirupsen/logrus"
 )
 
 type Data struct {
@@ -32,18 +33,19 @@ func InitLog() *os.File {
 	}
 
 	log.SetOutput(f)
-	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
+	//log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
+	log.SetFormatter(&log.JSONFormatter{})
 	return f
 }
 
 func HelloServer(w http.ResponseWriter, req *http.Request) {
 	defer func() {
 		if r := recover(); r != nil {
-			log.Println("recover,msg:\n", r)
+			log.Error("recover,msg:\n", r)
 		}
 	}()
 
-	log.Println("in,header:\n", w.Header())
+	log.Debug("in,header:\n", w.Header())
 
 	data := Data{Name: "Jack", Age: 30, Sex: "Male"}
 	data2 := Data{Name: "Mary", Age: 21, Sex: "Female"}
@@ -73,7 +75,7 @@ func main() {
 		f.Close()
 	}()
 	f = InitLog()
-	log.Println("in main")
+	log.Debug("in main")
 
 	http.HandleFunc("/test_component_ajax/getGridData", HelloServer)
 	http.HandleFunc("/hello1", HelloServer1)

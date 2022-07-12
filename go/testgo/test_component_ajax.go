@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/sirupsen/logrus"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -32,9 +33,17 @@ func InitLog() *os.File {
 		return nil
 	}
 
+	logrus.SetReportCaller(true)
+	/* 	logrus.SetFormatter(&logrus.TextFormatter{
+		//以下设置只是为了使输出更美观
+		DisableColors:   true,
+		TimestampFormat: "2006-01-02 15:03:04",
+	}) */
 	log.SetOutput(f)
 	//log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
-	log.SetFormatter(&log.JSONFormatter{})
+	log.SetFormatter(&log.JSONFormatter{
+		TimestampFormat: "2006-01-02 15:03:04",
+	})
 	return f
 }
 

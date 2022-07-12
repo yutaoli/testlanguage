@@ -44,6 +44,8 @@ func InitLog() *os.File {
 	log.SetFormatter(&log.JSONFormatter{
 		TimestampFormat: "2006-01-02 15:03:04",
 	})
+
+	log.SetLevel(log.DebugLevel) //DebugLevel
 	return f
 }
 

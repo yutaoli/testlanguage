@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/sirupsen/logrus"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -33,7 +32,7 @@ func InitLog() *os.File {
 		return nil
 	}
 
-	logrus.SetReportCaller(true)
+	log.SetReportCaller(true)
 	/* 	logrus.SetFormatter(&logrus.TextFormatter{
 		//以下设置只是为了使输出更美观
 		DisableColors:   true,

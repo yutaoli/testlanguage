@@ -87,6 +87,7 @@ func main() {
 	}()
 	f = InitLog()
 	log.Debug("in main")
+	log.Error("in main error")
 
 	http.HandleFunc("/test_component_ajax/getGridData", HelloServer)
 	http.HandleFunc("/hello1", HelloServer1)

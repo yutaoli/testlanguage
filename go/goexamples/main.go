@@ -14,14 +14,17 @@ import (
 	"math"
 	"math/rand"
 	"net"
+	"net/http"
 	"net/url"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"sort"
 	"strconv"
 	"strings"
 	"sync"
 	"sync/atomic"
+	"syscall"
 	"time"
 )
 
@@ -1663,6 +1666,170 @@ func Directories() {
 
 } */
 
-func main() {
-	FilePath()
+func CommandLineArguments() {
+
+	argsWithProg := os.Args
+	argsWithoutProg := os.Args[1:]
+
+	arg := os.Args[3]
+
+	fmt.Println(argsWithProg)
+	fmt.Println(argsWithoutProg)
+	fmt.Println(arg)
+
 }
+
+func EnvironmentVariables() {
+
+	os.Setenv("FOO", "1")
+	fmt.Println("FOO:", os.Getenv("FOO"))
+	fmt.Println("BAR:", os.Getenv("BAR"))
+
+	fmt.Println()
+	for _, e := range os.Environ() {
+		pair := strings.SplitN(e, "=", 2)
+		fmt.Println(e, "->", pair[0], "=", pair[1])
+	}
+}
+
+func HttpClients() {
+
+	resp, err := http.Get("https://gobyexample.com")
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+
+	fmt.Println("Response status:", resp.Status)
+
+	scanner := bufio.NewScanner(resp.Body)
+	for i := 0; scanner.Scan() && i < 5; i++ {
+		fmt.Println(scanner.Text())
+	}
+
+	if err := scanner.Err(); err != nil {
+		panic(err)
+	}
+}
+
+func Hello(w http.ResponseWriter, req *http.Request) {
+
+	fmt.Fprintf(w, "hello\n")
+}
+
+func Headers(w http.ResponseWriter, req *http.Request) {
+
+	for name, headers := range req.Header {
+		for _, h := range headers {
+			fmt.Fprintf(w, "%v: %v\n", name, h)
+		}
+	}
+}
+
+func HttpServer() {
+
+	http.HandleFunc("/hello", Hello)
+	http.HandleFunc("/headers", Headers)
+
+	http.ListenAndServe(":8090", nil)
+}
+
+// 浏览器访问，然后关闭页面，造成context中断
+func HelloContext(w http.ResponseWriter, req *http.Request) {
+	ctx := req.Context()
+	fmt.Println("server:hello handler started")
+	defer fmt.Println("server:hello handler ended")
+
+	select {
+	case <-time.After(10 * time.Second):
+		fmt.Fprintf(w, "hello\n")
+	case <-ctx.Done():
+		err := ctx.Err()
+		fmt.Println("server:", err)
+		internalError := http.StatusInternalServerError
+		http.Error(w, err.Error(), internalError)
+	}
+}
+
+func HttpServerContext() {
+
+	http.HandleFunc("/hello", HelloContext)
+
+	http.ListenAndServe(":8090", nil)
+}
+
+func SpawningProcess() {
+
+	/* _, err = exec.Command("date", "-x").Output()
+	if err != nil {
+		switch e := err.(type) {
+		case *exec.Error:
+			fmt.Println("failed executing:", err)
+		case *exec.ExitError:
+			fmt.Println("command exit rc =", e.ExitCode())
+		default:
+			panic(err)
+		}
+	} */
+
+	output, err := exec.Command("go", "version").Output()
+	if err != nil {
+		switch e := err.(type) {
+		case *exec.Error:
+			fmt.Println("failed executing:", err)
+		case *exec.ExitError:
+			fmt.Println("command exit rc =", e.ExitCode())
+		default:
+			panic(err)
+		}
+	}
+	fmt.Println(">go version")
+	fmt.Println(string(output))
+
+	/* grepCmd := exec.Command("grep", "hello")
+
+	grepIn, _ := grepCmd.StdinPipe()
+	grepOut, _ := grepCmd.StdoutPipe()
+	grepCmd.Start()
+	grepIn.Write([]byte("hello grep\ngoodbye grep"))
+	grepIn.Close()
+	grepBytes, _ := io.ReadAll(grepOut)
+	grepCmd.Wait()
+
+	fmt.Println("> grep hello")
+	fmt.Println(string(grepBytes))
+
+	lsCmd := exec.Command("bash", "-c", "ls -a -l -h")
+	lsOut, err := lsCmd.Output()
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("> ls -a -l -h")
+	fmt.Println(string(lsOut)) */
+
+}
+
+func ExecingProcess() {
+
+	binary, lookErr := exec.LookPath("ls")
+	if lookErr != nil {
+		panic(lookErr)
+	}
+
+	fmt.Println("binary=", binary)
+
+	args := []string{"ls", "-l"}
+
+	env := os.Environ()
+
+	execErr := syscall.Exec(binary, args, env)
+	if execErr != nil {
+		panic(execErr) // panic: not supported by windows
+		// panic: exec: "ls": executable file not found in %PATH%
+	}
+}
+func main() {
+	ExecingProcess()
+}
+
+// go run ./main.go

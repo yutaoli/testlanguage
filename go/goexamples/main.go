@@ -1809,6 +1809,17 @@ func SpawningProcess() {
 
 }
 
+/* linux下运行正常，windows不行
+输出：
+binary= /usr/bin/ls
+总用量 7348
+-rw-r--r-- 1 root root 2012672 7月  13 06:49 __debug_bin
+-rwxr-xr-x 1 root root 3555313 7月  19 07:35 examples
+-rw-r--r-- 1 root root 1912320 7月  13 06:49 examples.exe
+-rw-r--r-- 1 root root      25 7月  13 06:49 go.mod
+-rw-r--r-- 1 root root   31911 7月  19 07:35 main.go
+-rw-r--r-- 1 root root     769 7月  19 07:33 main_test.go
+*/
 func ExecingProcess() {
 
 	binary, lookErr := exec.LookPath("ls")
@@ -1821,6 +1832,7 @@ func ExecingProcess() {
 	args := []string{"ls", "-l"}
 
 	env := os.Environ()
+	fmt.Println("env=", env)
 
 	execErr := syscall.Exec(binary, args, env)
 	if execErr != nil {

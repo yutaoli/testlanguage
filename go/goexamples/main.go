@@ -1,6 +1,8 @@
 // https://gobyexample.com/
 // update@2022年7月9日 17:59:31
 // 1、go里除了函数用括号，语句暂时没有见到用括号的，if，for都没有括号
+// update@2022年7月19日 07:47:52
+
 package main
 
 import (
@@ -18,6 +20,7 @@ import (
 	"net/url"
 	"os"
 	"os/exec"
+	"os/signal"
 	"path/filepath"
 	"sort"
 	"strconv"
@@ -1812,12 +1815,13 @@ func SpawningProcess() {
 /* linux下运行正常，windows不行
 输出：
 binary= /usr/bin/ls
-总用量 7348
+env= [XDG_SESSION_ID=87755 HOSTNAME=ecs-KwUzX TERM=xterm SHELL=/bin/bash HISTSIZE=1000 SSH_CLIENT=120.229.156.91 3649 22 SSH_TTY=/dev/pts/0 USER=root LS_COLORS=rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=01;05;37;41:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.axv=01;35:*.anx=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=01;36:*.au=01;36:*.flac=01;36:*.mid=01;36:*.midi=01;36:*.mka=01;36:*.mp3=01;36:*.mpc=01;36:*.ogg=01;36:*.ra=01;36:*.wav=01;36:*.axa=01;36:*.oga=01;36:*.spx=01;36:*.xspf=01;36: MAIL=/var/spool/mail/root PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/bin PWD=/root/project_code/testlanguage/go/goexamples LANG=zh_CN.UTF-8 HISTCONTROL=ignoredups SHLVL=1 HOME=/root GOROOT=/usr/lib/golang/ LOGNAME=root SSH_CONNECTION=120.229.156.91 3649 23.133.1.120 22 LESSOPEN=||/usr/bin/lesspipe.sh %s XDG_RUNTIME_DIR=/run/user/0 _=./examples OLDPWD=/root/project_code/testlanguage/go]
+总用量 7352
 -rw-r--r-- 1 root root 2012672 7月  13 06:49 __debug_bin
--rwxr-xr-x 1 root root 3555313 7月  19 07:35 examples
+-rwxr-xr-x 1 root root 3555337 7月  19 07:39 examples
 -rw-r--r-- 1 root root 1912320 7月  13 06:49 examples.exe
 -rw-r--r-- 1 root root      25 7月  13 06:49 go.mod
--rw-r--r-- 1 root root   31911 7月  19 07:35 main.go
+-rw-r--r-- 1 root root   32363 7月  19 07:39 main.go
 -rw-r--r-- 1 root root     769 7月  19 07:33 main_test.go
 */
 func ExecingProcess() {
@@ -1840,8 +1844,37 @@ func ExecingProcess() {
 		// panic: exec: "ls": executable file not found in %PATH%
 	}
 }
+
+func Signals() {
+
+	sigs := make(chan os.Signal, 1)
+
+	signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM)
+
+	done := make(chan bool, 1)
+
+	go func() {
+
+		sig := <-sigs
+		fmt.Println()
+		fmt.Println(sig)
+		done <- true
+	}()
+
+	fmt.Println("awaiting signal")
+	<-done
+	fmt.Println("exiting")
+}
+
+func Exit() {
+
+	// Exit方式退出，不会调用defer
+	defer fmt.Println("!")
+
+	os.Exit(3)
+}
 func main() {
-	ExecingProcess()
+	Exit()
 }
 
 // go run ./main.go

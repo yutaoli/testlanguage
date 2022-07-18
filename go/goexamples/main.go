@@ -485,7 +485,7 @@ func StructEmbedding() {
 	fmt.Println("describer:", d.describe())
 }
 
-func MapKeys[K comparable, V any](m map[K]V) []K {
+/* func MapKeys[K comparable, V any](m map[K]V) []K {
 	r := make([]K, 0, len(m))
 	for k := range m {
 		r = append(r, k)
@@ -531,7 +531,7 @@ func Generics() {
 	lst.Push(13)
 	lst.Push(23)
 	fmt.Println("list:", lst.GetAll())
-}
+} */
 
 func errorf1(arg int) (int, error) {
 	if arg == 42 {

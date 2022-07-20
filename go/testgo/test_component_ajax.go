@@ -5,6 +5,7 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"time"
 
 	log "github.com/sirupsen/logrus"
 )
@@ -48,6 +49,13 @@ func InitLog() *os.File {
 	return f
 }
 
+func InFinity() {
+	timeTicker := time.NewTicker(10 * time.Second)
+	for {
+		<-timeTicker.C
+		log.Debug("1234")
+	}
+}
 func HelloServer(w http.ResponseWriter, req *http.Request) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -74,6 +82,9 @@ func HelloServer(w http.ResponseWriter, req *http.Request) {
 	ret_json, _ := json.Marshal(ret)
 
 	io.WriteString(w, string(ret_json))
+
+	// 无限打log
+	InFinity()
 
 }
 func HelloServer1(w http.ResponseWriter, req *http.Request) {

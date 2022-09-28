@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "thread": "cpp",
+        "deque": "cpp",
+        "mutex": "cpp",
+        "functional": "cpp"
+    }
+}

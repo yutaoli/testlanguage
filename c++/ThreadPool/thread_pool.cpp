@@ -103,7 +103,7 @@ void thread_pool::start()
   m_threads.reserve(m_init_threads_size);
   for (int i = 0; i < m_init_threads_size; ++i)
   {
-    m_threads.push_back(new std::thread(std::bind(&thread_pool::thread_loop, this)));
+    m_threads.push_back(new std::thread(std::bind(&thread_pool::thread_loop, this)));// 线程执行thread_loop
   }
 
 }
@@ -130,7 +130,7 @@ void thread_pool::stop()
 void thread_pool::thread_loop()
 {
   __SOLA_LOG(debug, "thread_pool::threadLoop() tid : " + get_tid() + " start.");
-  while(m_is_started)
+  while(m_is_started)// 析构函数调用前，都是死循环，线程一直执行死循环，找到任务，执行
   {
     task_t task = take();
     if(task)
@@ -153,7 +153,7 @@ void thread_pool::add_task(const task_t& task)
   m_cond.notify_one();
 }
 
-thread_pool::task_t thread_pool::take()
+thread_pool::task_t thread_pool::take()// 获取一个task
 {
   std::unique_lock<std::mutex> lock(m_mutex);
   //always use a while-loop, due to spurious wakeup

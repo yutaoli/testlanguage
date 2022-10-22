@@ -198,15 +198,15 @@ private:
     struct LinkNode *m_head, *m_tail;
 };
 
-class RateLimiter
+class TimestampQueueRateLimiter
 {
 public:
-    RateLimiter(int seconds, int limit)
+    TimestampQueueRateLimiter(int seconds, int limit)
     {
         m_seconds = seconds;
         m_limit = limit;
     }
-    virtual ~RateLimiter()
+    virtual ~TimestampQueueRateLimiter()
     {
     }
 
@@ -233,12 +233,12 @@ private:
     std::queue<int> m_queue; // 时间戳队列
 };
 
-int test_RateLimiter()
+int test_TimestampQueueRateLimiter()
 {
     int seconds = 10;// 10秒 内 至多 5个请求
     int limits = 5;
 
-    RateLimiter rate_limiter(seconds, limits);
+    TimestampQueueRateLimiter rate_limiter(seconds, limits);
     cout << rate_limiter.tryAcquire() << endl;
     cout << rate_limiter.tryAcquire() << endl;
     cout << rate_limiter.tryAcquire() << endl;
@@ -335,6 +335,6 @@ int main()
 {
     // (void)testupperbound_lowerbound();
     //test();
-    test_RateLimiter();
+    test_TimestampQueueRateLimiter();
     return 0;
 }

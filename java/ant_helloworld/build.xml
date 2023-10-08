@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<project name="java-ant project" default="run">  
+    <target name="run" depends="compile">  
+        <java classname = "ant_helloworld.AntHelloWorld">  
+            <classpath path="build"></classpath>  
+        </java>  
+    </target>
+	<target name="init" >
+	 <mkdir dir="build" />
+   </target>
+    <target name="compile" depends="init" >  
+        <javac includeantruntime="false" srcdir="./src" destdir = "build"></javac>  
+    </target>  
+</project>

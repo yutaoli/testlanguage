@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<project name="java-ant project" default="run">  
+	<!-- Set the classpath-->	
+  <path id="compile.classpath">
+	  <fileset dir="lib">
+	      <include name="**/*.jar" />
+	  </fileset>
+  </path>
+  
+  <path id="run.classpath">
+	  <path refid="compile.classpath" />
+	  <!-- pathelement location="build" / -->
+	  <pathelement location="bin/AntUseImport.jar" />
+  </path>
+  
+    <target name="run" depends="dist">  
+        <java classname="ant_helloworld.AntUseImport" classpathref="run.classpath" >	
+        </java>  
+    </target>
+	
+	<target name="init" >
+	<delete dir="build" />
+	<delete dir="bin" />
+	 <mkdir dir="build" />
+	 <mkdir dir="bin" />
+   </target>
+   
+   <target name="clean" >
+	<delete dir="build" />
+	<delete dir="bin" />
+   </target>
+   
+    <target name="compile" depends="init" >  
+        <javac includeantruntime="false" srcdir="./src" destdir = "build" classpathref="compile.classpath" ></javac>  
+    </target>
+	
+	<target name="dist" depends="compile">
+   <jar destfile="bin/AntUseImport.jar"
+      basedir="build/"
+      includes="**"
+      excludes="**/Test.class">
+
+      <manifest>
+         <attribute name="Main-Class" value="ant_helloworld.AntUseImport"/>
+      </manifest>
+   </jar>
+</target>	
+  
+</project>

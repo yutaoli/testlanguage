@@ -7,8 +7,21 @@
     </target>
 	<target name="init" >
 	 <mkdir dir="build" />
+	 <mkdir dir="lib" />
    </target>
     <target name="compile" depends="init" >  
         <javac includeantruntime="false" srcdir="./src" destdir = "build"></javac>  
-    </target>  
+    </target>
+	
+  <target name="package" depends="compile">
+   <jar destfile="lib/util.jar"
+      basedir="build/"
+      includes="**"
+      excludes="**/Test.class">
+
+      <manifest>
+         <attribute name="Main-Class" value="ant_helloworld.AntHelloWorld"/>
+      </manifest>
+   </jar>
+</target>	
 </project>
